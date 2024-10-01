@@ -26,3 +26,4 @@ yarn-error.log*
 /my-chatbot/src/ChatboxMain.js
 /my-chatbot/src/StreamingChat.js
 /my-chatbot/src/App.css
+.vercel
