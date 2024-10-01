@@ -22,9 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/src/Chatboxtest.js
-/src/ChatboxMain.js
-/src/StreamingChat.js
-/src/App.css
-/server.py
-/test-streaming.py
+/my-chatbot/src/Chatboxtest.js
+/my-chatbot/src/ChatboxMain.js
+/my-chatbot/src/StreamingChat.js
+/my-chatbot/src/App.css
