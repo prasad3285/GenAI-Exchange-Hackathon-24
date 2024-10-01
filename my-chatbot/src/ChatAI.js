@@ -33,7 +33,7 @@ const Chatbot = () => {
   const chatAreaRef = useRef(null);
   const latestMessageRef = useRef(null);
 
-
+  //To enable bottom scrolling//
   useEffect(() => {
     if (latestMessageRef.current) {
       console.log("Auto-scrolling to the latest message"); // Debugging log
