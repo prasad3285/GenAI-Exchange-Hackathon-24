@@ -1,0 +1,137 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .chatbot-wrapper {
+    display: flex;
+    height: 100vh; /* Full screen height */
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #2f3136;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+  
+  .sidebar h2, .sidebar h3 {
+    margin: 0 0 10px 0;
+  }
+  
+  .sidebar ul {
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 10px;
+  }
+  
+  .chatbot-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    background-color: white;
+  }
+  
+  .chat-area {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    margin-bottom: 10px;
+  }
+  
+  .message.user .message-bubble {
+    background-color: #0084ff;
+    color: white;
+    align-self: flex-end;
+    border-radius: 15px 15px 0 15px;
+  }
+  
+  .message.ai .message-bubble {
+    background-color: #e5e5ea;
+    color: black;
+    align-self: flex-start;
+    border-radius: 15px 15px 15px 0;
+  }
+  
+  .message-bubble {
+    padding: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+  }
+  
+  .input-box {
+    display: flex;
+    padding: 10px;
+    background-color: #f9f9f9;
+    align-items: center;
+  }
+  
+  .input-box input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: none; /* No borders */
+    outline: none; /* No outline */
+    background-color: #f0f0f0; /* Seamless input box */
+  }
+  
+  .input-box button {
+    padding: 10px 20px;
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .input-box button:hover {
+    background-color: #005bb5;
+  }
+  
+  /* Reset button styling */
+  .reset-btn {
+    background-color: #ff4d4d;
+  }
+  
+  .reset-btn:hover {
+    background-color: #e60000;
+  }
+  
+  /* Button Grid Styling */
+  .button-grid {
+    display: grid;
+    grid-template-columns: repeat(4, auto); /* Closer horizontal spacing */
+    grid-gap: 5px 15px; /* Closer vertical (5px) and horizontal (15px) spacing */
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Center vertically */
+  }
+  
+  .main-button {
+    max-width: 120px; /* Prevent buttons from stretching too wide */
+    white-space: normal; /* Allow text wrapping */
+    padding: 8px;
+    background-color: #d3d3d3; /* Subtle gray background */
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .main-button:hover {
+    background-color: #b0b0b0; /* Slightly darker gray on hover */
+  }
+  
