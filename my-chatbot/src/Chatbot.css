@@ -7,6 +7,41 @@
     /*background: linear-gradient(to bottom, hsl(98, 27%, 62%), #ffffff); /* Light blue to white gradient */
     /*width:100%*/
   }
+
+/* Chatbot Wrapper Header */
+.chat-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: right; /* Center the logo and title horizontally */
+  padding: 2px;
+  background-color: rgba(253, 254, 255, 0.8);;
+  /*border-bottom: 3px double #0073e6;*/
+  width: 100%;
+  position: relative;
+  /*z-index: 10; /* Ensure it stays on top */
+}
+
+
+/* Chat Logo Styling */
+.chat-logo {
+  height: 100px; /* Adjust size of the logo */
+  width: auto;
+  margin-right: 15px; /* Space between logo and title */
+  background:transparent;
+}
+
+/* Chat Title Styling */
+.chat-title {
+  font-size: 24px; /* Adjust the font size */
+  font-weight: bold;
+  color: #333;
+}
+
+.chat-content {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
   
   /* Sidebar styling */
   .sidebar {
@@ -15,8 +50,9 @@
     padding: 10px;
     border-right: 1px solid #ccc;
     overflow-y: auto;
-    height: 100vh; /* Make the sidebar span the full height */
+    /*height: 100vh; /* Make the sidebar span the full height */
     box-sizing: border-box;
+    flex-shrink: 0
 }
   
   /* Container for chat interface */
@@ -27,7 +63,7 @@
     flex-direction: column;
     position: relative;
     padding: 10px;
-    background-color: #fff;
+    background-color: rgba(253, 254, 255, 0.8);;
     overflow: hidden;
 }
   /* Chat area styles */
@@ -74,7 +110,9 @@
     align-items: center; /* Center text vertically */
     font-size:16px;
     line-height: 1.5; /* Increase line height for more vertical space between lines of text */
-    letter-spacing: 0.5px
+    letter-spacing: 0.5px;
+    border-radius: 20px; /* Makes the button rounded */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
    ;
 
 }
@@ -98,24 +136,26 @@
     /*margin: 0 auto; */
     padding: 1px; /* Optional padding around the grid */
     box-sizing: border-box; /* Ensure padding is included in the grid’s total width */
+    
   }
   
   .sub-prompt-button {
     padding: 10px;
     background-color: #dcedc8;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.2s, box-shadow 0.2s;
-    font-size: 14px;
+    font-size: 15px;
     text-align: left;
     min-width: 150px;
     line-height: 1.5; /* Increase line height for more vertical space between lines of text */
-    letter-spacing: 0.5px
+    letter-spacing: 0.5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
   }
   
   .sub-prompt-button:hover {
-    background-color: 
+    background-color: #f0f0f0;
   }
 
   
@@ -138,7 +178,7 @@
   .chat-input {
     flex: 1; /* Allow the input to take up all available space */
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 4px double rgba(135, 206,250, 0.8);
     border-radius: 20px; /* Rounded borders */
     margin-right: 10px; /* Space between input and buttons */
     outline: none; /* Remove the default outline */
@@ -148,7 +188,8 @@
     transition: border-color 0.3s; /* Smooth transition on focus */
     height: 50px;
     text-align: center;
-    font-size: 15px;
+    font-size: 16px;
+    letter-spacing: 1.2px;
 }
 
 .chat-input:focus {
@@ -164,6 +205,7 @@
     cursor: pointer;
     margin-left: 5px; /* Space between buttons */
     transition: background 0.2s;
+    
   }
   
   .send-button:hover {

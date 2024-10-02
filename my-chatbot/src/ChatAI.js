@@ -310,11 +310,15 @@ const Chatbot = () => {
   
       {/* Main chat area container */}
       <div className="chatbot-container">
+            <div className="chat-header">
+            <img src="/CW-logo.png" alt="Logo" className="chat-logo" />
+            </div>
         <div className="chat-area" ref={chatAreaRef}
              style={{
                     justifyContent: showButtons ? 'center' : 'flex-start',
                     alignItems: showButtons ? 'center' : 'flex-start',
              }}>
+              
                   
           {/* Render main dynamic buttons if showButtons is true */}
           {showButtons && (
@@ -373,7 +377,7 @@ const Chatbot = () => {
           className="chat-input"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="I am your Health assistant,Ask me anything......."
+          placeholder="I am Nutribot,your trusted health&wellness guide.Ask me anything......."
           required
         />
         <button type="submit" className="send-button">Send</button>
@@ -382,6 +386,9 @@ const Chatbot = () => {
     </div>
   </div>
 );
+
+  
+ 
 };
 
 export default Chatbot; 

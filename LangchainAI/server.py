@@ -2,24 +2,39 @@ from flask import Flask, request, jsonify, Response
 from langchain.prompts import PromptTemplate
 #from langchain.chat_models import ChatOpenAI
 from langchain_openai import ChatOpenAI
+#from langchain_chroma import Chroma
+from langchain_openai import OpenAIEmbeddings
 from langchain.callbacks.base import BaseCallbackHandler
 from flask_cors import CORS
 from langchain_core.prompts import ChatPromptTemplate
 import os 
 import time
 from langchain.output_parsers import RegexParser
+from langchain.vectorstores import Chroma
+#from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.document_loaders import PyPDFLoader,TextLoader
+from langchain.text_splitter import (CharacterTextSplitter,RecursiveCharacterTextSplitter )
+from langchain.docstore.document import Document
+from langchain.chains import RetrievalQA
+from langchain_core.runnables import RunnablePassthrough
 
-# Define a regex to capture numbered list items like "1. ", "2. ", etc.
-regex_parser = RegexParser(
-    regex=r"(\d+)\.\s+(.+?)(?=\d+\.\s+|$)",  # This regex captures "1. " followed by the text
-    output_keys=["index", "list_item"]
-)
 
-app = Flask(__name__)
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 
-CORS(app)  # Enable CORS
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
+
+openai_embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+
+loader = PyPDFLoader("C:/Users/guru3/Documents/Guru-24/google Hackathon/data/ConsumerWise RAG.pdf")
+
+pages  = loader.load_and_split()
+
+textsplitter = RecursiveCharacterTextSplitter(chunk_size = 1000,chunk_overlap= 200)
+
+docs = textsplitter.split_documents(pages)
+
+db = Chroma.from_documents(docs,openai_embeddings)
+
+retriever = db.as_retriever()
 
 
 class StreamingCallbackHandler(BaseCallbackHandler):
@@ -35,7 +50,22 @@ class StreamingCallbackHandler(BaseCallbackHandler):
 # Create an instance of the custom callback handler
 callback_handler = StreamingCallbackHandler()
 
+# Define a regex to capture numbered list items like "1. ", "2. ", etc.
+regex_parser = RegexParser(
+    regex=r"(\d+)\.\s+(.+?)(?=\d+\.\s+|$)",  # This regex captures "1. " followed by the text
+    output_keys=["index", "list_item"]
+)
+
+app = Flask(__name__)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 
+CORS(app)  # Enable CORS
+
+
+
+
 # Initialize OpenAI Chat LLM with streaming enabled
+
+
 
 llm = ChatOpenAI(
     model = "gpt-4o",
@@ -55,15 +85,62 @@ llm = ChatOpenAI(
 #     template=f"{system_prompt}\nQ: {{question}}\nA:"
 # )
 
-prompt = ChatPromptTemplate.from_messages([
-    (
-        "system",
-        "You are a nutrition expert. Please respond to questions by providing pointwise answers. "
-        "Start each point with a number followed by a period (e.g., '1. ', '2. ') and ensure that each point is clear and concise. "
-        "Give maximum of 9 points"
-    ),
-    ("human", "{question}")
-])
+
+
+
+
+# human_query = "Which protein powder should be avoided for lactose intolerance"
+
+# system_prompt = (
+#         "system", "You are a nutriton,personal care expert. Use the following pieces of retrieved context to answer \
+#          precise and concise points and insights with source link \
+#          If you don't know the answer, say that 'Sorry I dont know the answer' \
+#          Start each point with a number followed by a period (e.g., '1. ', '2. ')"
+#          "\n\n"
+#     "{context}"
+#     )
+
+
+
+# prompt = ChatPromptTemplate.from_messages (
+#     [
+#         ("system",  system_prompt),
+#         ("human","{input}"),
+#     ]     
+# )   
+
+# rag_chain = {"context": retriever, "question": RunnablePassthrough()} | prompt | llm
+
+# rag_chain.stream("input":human_query)
+
+
+message = """
+
+You are a nutriton,personal care expert. Use the following pieces of retrieved context to answer \
+         precise and concise points and insights with source link below\
+         If you don't know the answer, say that 'Sorry I dont know the answer' \
+         Start each point with a number followed by a period (e.g., '1. ', '2. ')"
+
+{question}
+
+Context:
+{context}
+
+"""
+
+prompt = ChatPromptTemplate.from_messages([("human", message)])
+
+rag_chain = {"context": retriever, "question": RunnablePassthrough()} | prompt | llm
+
+
+# rag_chain = RetrievalQA.from_llm(
+#     llm=llm,  # Your existing LLM instance
+#     chain_type="stuff",  # Specifies the chain type (you can use 'stuff' or 'map_reduce')
+#     retriever=retriever,
+#     return_source_documents=True,
+#     chain_type_kwargs={"prompt": prompt}  # Your existing prompt template
+# )
+
 
 # Route to accept a question
 @app.route('/ask', methods=['POST'])
@@ -84,10 +161,10 @@ def ask():
 def stream():
     def generate():
         global latest_question
-        callback_handler.messages.clear()  # Clear previous messages
-        chain = prompt | llm
+        #callback_handler.messages.clear()  # Clear previous messages
+        #chain = prompt | llm
         
-        list_started = False  # Track if we're inside a list
+        #list_started = False  # Track if we're inside a list
 
 
     
@@ -97,9 +174,9 @@ def stream():
 
         # Stream each token as it's received
         #for token in callback_handler.get_messages():
-        for token in chain.stream({"question": latest_question}):
+        for token in rag_chain.stream(latest_question):
             yield f"data: {(token.content)}\n\n"  # Convert chunk to a string
-            #print(f"Streaming token: {token}")  # Debug print
+            print(f"Streaming token: {token}")  # Debug print
             #yield f"data: {token}\n\n"
             #yield f"data: {token['text']}\n\n"
             #callback_handler.messages = []
