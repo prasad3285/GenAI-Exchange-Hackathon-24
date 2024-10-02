@@ -132,7 +132,16 @@ const Chatbot = () => {
     controller = new AbortController();
       try {
         // Send user input to the Flask server using fetch
-        const response = await fetch('http://127.0.0.1:5001/ask', {
+        // const response = await fetch('http://127.0.0.1:5001/ask', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json', // Specify the content type
+        //   },
+        //   body: JSON.stringify({ question: textToSend }), // Convert data to JSON string
+        //   signal: controller.signal,
+        // });
+
+        const response = await fetch('https://genai-exchange-hackathon-24.onrender.com/ask', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json', // Specify the content type
@@ -140,6 +149,8 @@ const Chatbot = () => {
           body: JSON.stringify({ question: textToSend }), // Convert data to JSON string
           signal: controller.signal,
         });
+
+
     
         // Check if the response is okay
         if (response.ok) {
@@ -150,7 +161,7 @@ const Chatbot = () => {
         }
 
 
-      const eventSource = new EventSource('http://127.0.0.1:5001/stream');
+      const eventSource = new EventSource('https://genai-exchange-hackathon-24.onrender.com/stream');
       let responseText = '';
     
       eventSource.onmessage = (event) => {
