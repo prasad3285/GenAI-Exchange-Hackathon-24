@@ -18,13 +18,18 @@ from langchain.docstore.document import Document
 from langchain.chains import RetrievalQA
 from langchain_core.runnables import RunnablePassthrough
 
+base_dir = os.getcwd()
 
+file_path = os.path.join(base_dir, 'data', 'ConsumerWise RAG.pdf')
+print(file_path)
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
 openai_embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
 
-loader = PyPDFLoader("C:/Users/guru3/Documents/Guru-24/google Hackathon/data/ConsumerWise RAG.pdf")
+#loader = PyPDFLoader("C:/Users/guru3/Documents/Guru-24/google Hackathon/data/ConsumerWise RAG.pdf")
+
+loader = PyPDFLoader(file_path)
 
 pages  = loader.load_and_split()
 
@@ -211,4 +216,4 @@ def stream():
 
 if __name__ == '__main__':
     #app.run(debug=True,port='5001')
-    app.run()
+    app.run(port='5001')
