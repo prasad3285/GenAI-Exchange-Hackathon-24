@@ -121,11 +121,11 @@ llm = ChatOpenAI(
 
 message = """
 
-You are a nutriton,personal care expert. Use the following pieces of retrieved context to answer \
-         precise and concise points and insights with source link below\
-         If you don't know the answer, say that 'Sorry I dont know the answer' \
+You are a nutriton,personal care expert. Strictly use the following pieces of retrieved context to answer \
+         precise and concise points\
+         If the context  doesnt have specific answers, say that 'Sorry I dont know the answer' \
          Start each point with a number followed by a period (e.g., '1. ', '2. ') \
-         Donot show the source link"
+         Donot show the source link. Give maximum of 9 points in case of a long list"
 
 {question}
 
@@ -134,7 +134,7 @@ Context:
 
 """
 
-prompt = ChatPromptTemplate.from_messages([("human", message)])
+prompt = ChatPromptTemplate.from_messages([("system", message)])
 
 rag_chain = {"context": retriever, "question": RunnablePassthrough()} | prompt | llm
 

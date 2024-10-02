@@ -39,7 +39,7 @@ llm = ChatOpenAI(
     model = "gpt-4o",
     openai_api_key=openai_api_key,  # Replace with your OpenAI API key
     streaming=True,
-    temperature=0.2,
+    temperature=0,
     #callbacks=[callback_handler],
     max_tokens = 512,
     max_retries=2
@@ -50,11 +50,12 @@ human_query = "Right protein for specific health concerns"
 
 message = """
 
-You are a nutriton,personal care expert. Use the following pieces of retrieved context to answer \
-         precise and concise points and insights with source link below\
-         If you don't know the answer, say that 'Sorry I dont know the answer' \
+You are a nutriton,personal care expert. Strictly use the following pieces of retrieved context to answer \
+         precise and concise points\
+         If the context  doesnt have specific answers, say that 'Sorry I dont know the answer' \
          Start each point with a number followed by a period (e.g., '1. ', '2. ') \
-         Donot show the source link"
+         Donot show the source link. Give maximum of 9 points in case of a long list"
+
  
 
 {question}
@@ -64,7 +65,7 @@ Context:
 
 """
 
-prompt = ChatPromptTemplate.from_messages([("human", message)])
+prompt = ChatPromptTemplate.from_messages([("system", message)])
 
 # system_prompt = (
 #         "system", "You are a nutriton,personal care expert. Use the following pieces of retrieved context to answer \
