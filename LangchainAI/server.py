@@ -182,7 +182,7 @@ def stream():
         #for token in callback_handler.get_messages():
         for token in rag_chain.stream(latest_question):
             yield f"data: {(token.content)}\n\n"  # Convert chunk to a string
-            print(f"Streaming token: {token}")  # Debug print
+            #print(f"Streaming token: {token}")  # Debug print
             #yield f"data: {token}\n\n"
             #yield f"data: {token['text']}\n\n"
             #callback_handler.messages = []
@@ -216,4 +216,4 @@ def stream():
 
 if __name__ == '__main__':
     #app.run(debug=True,port='5001')
-    app.run(port='5001')
+    app.run()
