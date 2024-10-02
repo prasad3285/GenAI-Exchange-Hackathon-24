@@ -27,3 +27,4 @@ yarn-error.log*
 /my-chatbot/src/StreamingChat.js
 /my-chatbot/src/App.css
 .vercel
+/LangchainAI/venv

@@ -119,7 +119,8 @@ message = """
 You are a nutriton,personal care expert. Use the following pieces of retrieved context to answer \
          precise and concise points and insights with source link below\
          If you don't know the answer, say that 'Sorry I dont know the answer' \
-         Start each point with a number followed by a period (e.g., '1. ', '2. ')"
+         Start each point with a number followed by a period (e.g., '1. ', '2. ') \
+         Donot show the source link"
 
 {question}
 
